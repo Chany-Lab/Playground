@@ -1,0 +1,9 @@
+__pycache__/
+*.egg-info/
+build/
+.venv/
+logs/
+outputs/
+datasets/
+# Per-machine leader-arm calibration.
+calibration/
