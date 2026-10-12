@@ -1,6 +1,7 @@
 [submodule "external/IsaacLab"]
 	path = external/IsaacLab
 	url = https://github.com/isaac-sim/IsaacLab.git
+	shallow = true
 [submodule "external/isaac-envs"]
 	path = external/isaac-envs
 	url = https://github.com/Embodied-Labs/Isaac-Envs.git
