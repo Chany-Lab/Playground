@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "playground"
+version = "0.1.0"
+description = "Isaac Lab tasks for RL, IL and teleoperation on the Isaac-Envs assets."
+# Isaac Sim 5.1 / Isaac Lab 2.3 are 3.11 only.
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "isaacsim[all,extscache]==5.1.0",
+    "torch==2.7.0",
+    "torchvision==0.22.0",
+    "isaaclab",
+    "isaaclab_assets",
+    "isaaclab_tasks",
+    "isaaclab_rl[all]",
+    "isaaclab_mimic[all]",
+    "isaac-envs",
+    "feetech-servo-sdk",
+]
+
+[dependency-groups]
+dev = ["black==26.5.1"]
+
+[tool.uv]
+index-strategy = "unsafe-best-match"
+# Isaac Lab source pins starlette 0.49.1; Isaac Sim 5.1 fastapi needs <0.46.
+# 0.45.3 is what the isaaclab 2.3.2.post1 wheel ships with.
+override-dependencies = ["starlette==0.45.3"]
+
+[tool.uv.extra-build-dependencies]
+# flatdict 4.0.1 imports pkg_resources, gone from setuptools 81.
+flatdict = ["setuptools<81"]
+
+[[tool.uv.index]]
+name = "nvidia"
+url = "https://pypi.nvidia.com"
+
+[[tool.uv.index]]
+# cu128 or newer: the GPU here is Blackwell (sm_120).
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+torchvision = { index = "pytorch-cu128" }
+# Source installs: the wheel has no scripts/ and its extensions do not import.
+isaaclab = { path = "external/IsaacLab/source/isaaclab", editable = true }
+isaaclab_assets = { path = "external/IsaacLab/source/isaaclab_assets", editable = true }
+isaaclab_tasks = { path = "external/IsaacLab/source/isaaclab_tasks", editable = true }
+isaaclab_rl = { path = "external/IsaacLab/source/isaaclab_rl", editable = true }
+isaaclab_mimic = { path = "external/IsaacLab/source/isaaclab_mimic", editable = true }
+# Editable so ASSETS_ROOT still points at external/isaac-envs/assets.
+isaac-envs = { path = "external/isaac-envs", editable = true }
+
+[tool.setuptools.packages.find]
+include = ["playground*"]
+
+[tool.black]
+target-version = ["py311"]
