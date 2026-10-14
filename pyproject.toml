@@ -14,6 +14,7 @@ dependencies = [
     "isaaclab-dev[isaacsim]",
     "isaaclab-mimic",
     "isaaclab-teleop",
+    "isaac-envs",
     "feetech-servo-sdk",
     "notifier",
 ]
@@ -77,6 +78,8 @@ isaaclab-tasks = { path = "external/IsaacLab/source/isaaclab_tasks", editable = 
 isaaclab-tasks-experimental = { path = "external/IsaacLab/source/isaaclab_tasks_experimental", editable = true }
 isaaclab-teleop = { path = "external/IsaacLab/source/isaaclab_teleop", editable = true }
 isaaclab-visualizers = { path = "external/IsaacLab/source/isaaclab_visualizers", editable = true }
+# Editable so ASSETS_ROOT still points at external/isaac-envs/assets.
+isaac-envs = { path = "external/isaac-envs", editable = true }
 notifier = { git = "https://github.com/Chany-Lab/Notifier.git" }
 
 [tool.uv.extra-build-variables]
