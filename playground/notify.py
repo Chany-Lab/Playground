@@ -12,6 +12,7 @@ and everything else that only serves notifications is wrapped.
 from __future__ import annotations
 
 import os
+import sys
 import threading
 import time
 from collections.abc import Iterator, Mapping
@@ -22,6 +23,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 WEBHOOK_KEYS = ("DISCORD_WEBHOOK_URL", "SLACK_WEBHOOK_URL")
 PROGRESS_KEY = "PLAYGROUND_NOTIFY_PROGRESS_MINUTES"
 DEFAULT_PROGRESS_MINUTES = 30.0
+DEFAULT_LIBRARY = "rsl_rl"
 # rsl_rl's tensorboard tags; other frameworks just report the iteration.
 REWARD_TAG = "Train/mean_reward"
 LENGTH_TAG = "Train/mean_episode_length"
@@ -93,14 +95,24 @@ def format_duration(seconds: float) -> str:
     return f"{secs}s"
 
 
-def find_log_dir(script: str, since: float, cwd: Path | None = None) -> Path | None:
+def library_from_argv(argv: list[str]) -> str | None:
+    """The value of `--rl_library` (or `--rl_library=`), else None."""
+    for i, arg in enumerate(argv):
+        if arg == "--rl_library" and i + 1 < len(argv):
+            return argv[i + 1]
+        if arg.startswith("--rl_library="):
+            return arg.split("=", 1)[1]
+    return None
+
+
+def find_log_dir(library: str, since: float, cwd: Path | None = None) -> Path | None:
     """Newest run directory created by this run, e.g. logs/rsl_rl/<exp>/<time>.
 
-    The Isaac Lab training scripts log to logs/<framework>/<experiment>/<run>
-    relative to the working directory, with <framework> the script's folder.
+    Isaac Lab's training entrypoint logs to logs/<library>/<experiment>/<run>
+    relative to the working directory, <library> being `--rl_library`.
     """
     try:
-        root = Path(cwd or Path.cwd()) / "logs" / Path(script).parent.name
+        root = Path(cwd or Path.cwd()) / "logs" / library
         runs = [
             p for p in root.glob("*/*") if p.is_dir() and p.stat().st_mtime >= since - 2
         ]
@@ -171,11 +183,18 @@ class RunNotifications:
     """The run's notifications; `finish` and friends send at most once."""
 
     def __init__(
-        self, notifier, task: str, script: str, argv: list[str], progress_minutes: float
+        self,
+        notifier,
+        task: str,
+        script: str,
+        argv: list[str],
+        progress_minutes: float,
+        library: str = DEFAULT_LIBRARY,
     ):
         self.notifier = notifier
         self.task = task
         self.script = script
+        self.library = library
         self.argv = argv
         self.progress_minutes = progress_minutes
         self.start = time.time()
@@ -200,7 +219,7 @@ class RunNotifications:
         fields = self._base_fields()
         fields["duration"] = format_duration(time.time() - self.start)
         try:
-            log_dir = find_log_dir(self.script, self.start)
+            log_dir = find_log_dir(self.library, self.start)
             if log_dir is not None:
                 fields["log dir"] = _display(log_dir)
                 self.progress.poll(log_dir)
@@ -242,7 +261,7 @@ class RunNotifications:
         last_step = None
         while not self._done.wait(interval):
             try:
-                log_dir = find_log_dir(self.script, self.start)
+                log_dir = find_log_dir(self.library, self.start)
                 if log_dir is None:
                     continue
                 self.progress.poll(log_dir)
@@ -268,10 +287,12 @@ def _describe(exc: BaseException) -> str:
 
 
 def _hook_simulation_app_close(run: RunNotifications) -> None:
-    """Send "finished" when the script closes the app.
+    """Send the end notification when the Kit app closes.
 
-    The Isaac Lab training scripts end with `main(); simulation_app.close()`,
-    and Kit may end the process inside close(), before control returns here.
+    Isaac Lab's launcher closes the app in a `finally` with the run's exit
+    code (`SimulationApp.close(exit_code=...)`: 0, 130 for Ctrl+C, else an
+    error), and Kit may end the process inside close(), before control
+    returns here.
     """
     # The same import isaaclab.app does first thing; if it fails here (e.g. the
     # EULA prompt is declined, which raises SystemExit), leave it to the script.
@@ -282,7 +303,14 @@ def _hook_simulation_app_close(run: RunNotifications) -> None:
     original = SimulationApp.close
 
     def close(self, *args, **kwargs):
-        run.finished()
+        code = kwargs.get("exit_code", args[2] if len(args) > 2 else 0)
+        if code in (None, 0):
+            run.finished()
+        elif code == 130:
+            run.stopped()
+        else:
+            # close() runs in the launcher's `finally`, with the error in flight
+            run.failed(sys.exception() or SystemExit(code))
         return original(self, *args, **kwargs)
 
     SimulationApp.close = close
@@ -297,8 +325,12 @@ def run_notifications(
     notifier=None,
     config: Mapping[str, str] | None = None,
     hook_app_close: bool = True,
+    library: str | None = None,
 ) -> Iterator[RunNotifications | None]:
     """Notify started, then finished / failed / stopped, around a training run.
+
+    `library` names the run's logs/<library> folder; by default `--rl_library`
+    from argv, else rsl_rl.
 
     Yields None and sends nothing when no webhook is configured. Exceptions
     from the run are re-raised unchanged.
@@ -312,7 +344,8 @@ def run_notifications(
                 minutes = float(config.get(PROGRESS_KEY, DEFAULT_PROGRESS_MINUTES))
             except ValueError:
                 minutes = DEFAULT_PROGRESS_MINUTES
-            run = RunNotifications(notifier, task, script, argv, minutes)
+            library = library or library_from_argv(argv) or DEFAULT_LIBRARY
+            run = RunNotifications(notifier, task, script, argv, minutes, library)
             run.started()
             if hook_app_close:
                 _hook_simulation_app_close(run)

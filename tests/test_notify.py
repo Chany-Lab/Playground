@@ -28,7 +28,7 @@ class FakeNotifier:
 def run(notifier, body, config=None):
     with run_notifications(
         "Task-v0",
-        "rsl_rl/train.py",
+        "reinforcement_learning/train.py",
         ["--task", "Task-v0"],
         notifier=notifier,
         config=config or {notify.PROGRESS_KEY: "0"},
@@ -177,6 +177,27 @@ def test_environment_overrides_dotenv(tmp_path, monkeypatch):
     assert notify.load_config(path)["DISCORD_WEBHOOK_URL"] == f"{URL}/file"
 
 
+def test_library_from_argv():
+    assert notify.library_from_argv(["--rl_library", "skrl", "--task", "A"]) == "skrl"
+    assert notify.library_from_argv(["--rl_library=sb3"]) == "sb3"
+    assert notify.library_from_argv(["--task", "A"]) is None
+
+
+def test_log_dir_follows_rl_library(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    fake = FakeNotifier()
+    with run_notifications(
+        "Task-v0",
+        "reinforcement_learning/train.py",
+        ["--rl_library", "skrl", "--task", "Task-v0"],
+        notifier=fake,
+        config={notify.PROGRESS_KEY: "0"},
+        hook_app_close=False,
+    ):
+        (tmp_path / "logs" / "skrl" / "exp" / "run").mkdir(parents=True)
+    assert fake.sent[1][3]["log dir"] == os.path.join("logs", "skrl", "exp", "run")
+
+
 def test_task_from_argv():
     assert notify.task_from_argv(["--task", "A-v0", "--headless"]) == "A-v0"
     assert notify.task_from_argv(["--task=B-v0"]) == "B-v0"
@@ -199,7 +220,32 @@ def test_progress_from_tensorboard_events(tmp_path):
     writer.close()
     progress.poll(log_dir)
     assert progress.fields() == {"iteration": 10, "mean reward": "9.000"}
-    assert (
-        notify.find_log_dir("rsl_rl/train.py", time.time() - 60, cwd=tmp_path)
-        == log_dir
+    assert notify.find_log_dir("rsl_rl", time.time() - 60, cwd=tmp_path) == log_dir
+
+
+@pytest.mark.parametrize(
+    "exit_code, expected",
+    [
+        (0, ("Training finished", "success")),
+        (130, ("Training stopped", "warning")),
+        (1, ("Training failed", "error")),
+    ],
+)
+def test_app_close_reports_launcher_exit_code(monkeypatch, exit_code, expected):
+    import sys
+    import types
+
+    class FakeApp:
+        def close(self, wait_for_replicator=True, skip_cleanup=False, exit_code=0):
+            self.closed_with = exit_code
+
+    monkeypatch.setitem(
+        sys.modules, "isaacsim", types.SimpleNamespace(SimulationApp=FakeApp)
     )
+    fake = FakeNotifier()
+    run = notify.RunNotifications(fake, "Task-v0", "train.py", [], 0)
+    notify._hook_simulation_app_close(run)
+    app = FakeApp()
+    app.close(exit_code=exit_code)
+    assert app.closed_with == exit_code
+    assert levels(fake) == [expected]
