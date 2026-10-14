@@ -14,13 +14,14 @@ import logging
 import time
 import weakref
 from collections.abc import Callable, Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
 import torch
 
 from isaaclab.devices.device_base import DeviceBase, DeviceCfg
+from isaaclab.utils import configclass
 
 from .feetech import DEFAULT_BAUDRATE, FeetechBus, LeaderBus
 from .so101_calibration import (
@@ -240,7 +241,7 @@ def resolve_repo_path(path: str | Path) -> Path:
     return path if path.is_absolute() else REPO_ROOT / path
 
 
-@dataclass
+@configclass
 class SO101LeaderCfg(DeviceCfg):
     """Configuration for `SO101Leader`."""
 
@@ -249,7 +250,10 @@ class SO101LeaderCfg(DeviceCfg):
     # Playground or LeRobot JSON; relative paths are against the repo root.
     calibration_path: str = DEFAULT_CALIBRATION
     # Takes precedence over calibration_path when set.
-    calibration: LeaderCalibration | None = None
+    # Borrowed, not deep-copied by configclass (the calibration is frozen).
+    calibration: LeaderCalibration | None = field(
+        default=None, metadata={"copy": False}
+    )
     # Sim joint limits in radians; None uses so101_new_calib.urdf.
     joint_limits: Mapping[str, tuple[float, float]] | None = None
     fallback_joint_pos: tuple[float, ...] = SO101_INIT_JOINT_POS
