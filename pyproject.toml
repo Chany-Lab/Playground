@@ -6,60 +6,84 @@ build-backend = "setuptools.build_meta"
 name = "playground"
 version = "0.1.0"
 description = "Isaac Lab tasks for RL, IL and teleoperation on the Isaac-Envs assets."
-# Isaac Sim 5.1 / Isaac Lab 2.3 are 3.11 only.
-requires-python = ">=3.11,<3.12"
+# Isaac Sim 6.2 / Isaac Lab 3.0 are 3.12 only.
+requires-python = ">=3.12,<3.13"
 dependencies = [
-    "isaacsim[all,extscache]==5.1.0",
-    "torch==2.7.0",
-    "torchvision==0.22.0",
-    "isaaclab",
-    "isaaclab_assets",
-    "isaaclab_tasks",
-    "isaaclab_rl[all]",
-    "isaaclab_mimic[all]",
-    "isaac-envs",
+    # Isaac Lab's root project (external/IsaacLab/pyproject.toml): every source package
+    # and all their third-party pins (torch, Newton, warp, rsl-rl-lib, ...).
+    "isaaclab-dev[isaacsim]",
+    "isaaclab-mimic",
+    "isaaclab-teleop",
     "feetech-servo-sdk",
     "notifier",
 ]
 
 [dependency-groups]
-dev = ["black==26.5.1"]
+dev = ["black==26.5.1", "pytest"]
 
 [tool.uv]
+# NVIDIA and PyTorch indexes carry some of the same names as PyPI.
 index-strategy = "unsafe-best-match"
-# Isaac Lab source pins starlette 0.49.1; Isaac Sim 5.1 fastapi needs <0.46.
-# 0.45.3 is what the isaaclab 2.3.2.post1 wheel ships with.
-override-dependencies = ["starlette==0.45.3"]
-
-[tool.uv.extra-build-dependencies]
-# flatdict 4.0.1 imports pkg_resources, gone from setuptools 81.
-flatdict = ["setuptools<81"]
+prerelease = "allow"
+environments = ["sys_platform == 'linux' and platform_machine == 'x86_64'"]
+# Copied from external/IsaacLab/pyproject.toml: overrides are not inherited from a dependency.
+override-dependencies = [
+    "numpy>=2",
+    "mujoco~=3.12.0",
+    "mujoco-warp~=3.12.0",
+    "newton[sim]==1.6.1",
+    "newton-usd-schemas>=0.5.0",
+    "usd-exchange==3.0.1",
+    "usd-optimize~=1.3.1",
+    "torch==2.11.0",
+    "torchvision==0.26.0",
+    "fsspec>=2026.6.0",
+    "packaging>=20,<27",
+    "urllib3>=2.8.0",
+]
 
 [[tool.uv.index]]
 name = "nvidia"
 url = "https://pypi.nvidia.com"
 
 [[tool.uv.index]]
-# cu128 or newer: the GPU here is Blackwell (sm_120).
-name = "pytorch-cu128"
-url = "https://download.pytorch.org/whl/cu128"
+name = "pypi-public"
+url = "https://pypi.org/simple"
+explicit = true
+
+[[tool.uv.index]]
+# cu130: torch 2.11 for Isaac Lab 3.0; the GPU here is Blackwell (sm_120).
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
 explicit = true
 
 [tool.uv.sources]
-torch = { index = "pytorch-cu128" }
-torchvision = { index = "pytorch-cu128" }
-# Source installs: the wheel has no scripts/ and its extensions do not import.
+torch = { index = "pytorch-cu130" }
+torchvision = { index = "pytorch-cu130" }
+omniverseclient = { index = "pypi-public" }
+# Source installs: the wheels have no scripts/ to run.
+isaaclab-dev = { path = "external/IsaacLab", editable = true }
 isaaclab = { path = "external/IsaacLab/source/isaaclab", editable = true }
-isaaclab_assets = { path = "external/IsaacLab/source/isaaclab_assets", editable = true }
-isaaclab_tasks = { path = "external/IsaacLab/source/isaaclab_tasks", editable = true }
-isaaclab_rl = { path = "external/IsaacLab/source/isaaclab_rl", editable = true }
-isaaclab_mimic = { path = "external/IsaacLab/source/isaaclab_mimic", editable = true }
-# Editable so ASSETS_ROOT still points at external/isaac-envs/assets.
-isaac-envs = { path = "external/isaac-envs", editable = true }
+isaaclab-assets = { path = "external/IsaacLab/source/isaaclab_assets", editable = true }
+isaaclab-contrib = { path = "external/IsaacLab/source/isaaclab_contrib", editable = true }
+isaaclab-experimental = { path = "external/IsaacLab/source/isaaclab_experimental", editable = true }
+isaaclab-mimic = { path = "external/IsaacLab/source/isaaclab_mimic", editable = true }
+isaaclab-newton = { path = "external/IsaacLab/source/isaaclab_newton", editable = true }
+isaaclab-ov = { path = "external/IsaacLab/source/isaaclab_ov", editable = true }
+isaaclab-physx = { path = "external/IsaacLab/source/isaaclab_physx", editable = true }
+isaaclab-ppisp = { path = "external/IsaacLab/source/isaaclab_ppisp", editable = true }
+isaaclab-rl = { path = "external/IsaacLab/source/isaaclab_rl", editable = true }
+isaaclab-tasks = { path = "external/IsaacLab/source/isaaclab_tasks", editable = true }
+isaaclab-tasks-experimental = { path = "external/IsaacLab/source/isaaclab_tasks_experimental", editable = true }
+isaaclab-teleop = { path = "external/IsaacLab/source/isaaclab_teleop", editable = true }
+isaaclab-visualizers = { path = "external/IsaacLab/source/isaaclab_visualizers", editable = true }
 notifier = { git = "https://github.com/Chany-Lab/Notifier.git" }
+
+[tool.uv.extra-build-variables]
+egl-probe = { CMAKE_POLICY_VERSION_MINIMUM = "3.5" }
 
 [tool.setuptools.packages.find]
 include = ["playground*"]
 
 [tool.black]
-target-version = ["py311"]
+target-version = ["py312"]
