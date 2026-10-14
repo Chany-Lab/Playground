@@ -9,6 +9,7 @@ those speeds (scene.Drives.jog). The TCP is a link of the robot plus an offset i
 import math
 
 import omni.physics.tensors as physics_tensors
+import omni.usd
 import torch
 
 DAMPING = 0.05  # damped least squares λ: keeps speeds bounded near singularities
@@ -44,7 +45,9 @@ class TcpJog:
         if self.view is not None and self.sim.is_valid:
             return True
         try:
-            self.sim = physics_tensors.create_simulation_view("torch")
+            # Isaac Sim 6 no longer falls back to the open stage when no stage id is given
+            stage_id = omni.usd.get_context().get_stage_id()
+            self.sim = physics_tensors.create_simulation_view("torch", stage_id=stage_id)
             self.view = self.sim.create_articulation_view(self.root)
             meta = self.view.shared_metatype
             self.link_index = meta.link_names.index(self.link)
