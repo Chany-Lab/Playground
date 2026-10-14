@@ -27,7 +27,7 @@ from playground.teleop.so101_calibration import (
 from playground.teleop.so101_leader import SO101Leader, SO101LeaderCfg
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-URDF = REPO_ROOT / "external/isaac-envs/assets/robots/so101/urdf/so101_new_calib.urdf"
+URDF = REPO_ROOT / "external/isaac-envs/assets/robots/manipulation/so101/urdf/so101_new_calib.urdf"
 
 IDS = {name: i + 1 for i, name in enumerate(JOINT_NAMES)}
 
