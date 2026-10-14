@@ -19,6 +19,7 @@ dependencies = [
     "isaaclab_mimic[all]",
     "isaac-envs",
     "feetech-servo-sdk",
+    "notifier",
 ]
 
 [dependency-groups]
@@ -55,6 +56,7 @@ isaaclab_rl = { path = "external/IsaacLab/source/isaaclab_rl", editable = true }
 isaaclab_mimic = { path = "external/IsaacLab/source/isaaclab_mimic", editable = true }
 # Editable so ASSETS_ROOT still points at external/isaac-envs/assets.
 isaac-envs = { path = "external/isaac-envs", editable = true }
+notifier = { git = "https://github.com/Chany-Lab/Notifier.git" }
 
 [tool.setuptools.packages.find]
 include = ["playground*"]

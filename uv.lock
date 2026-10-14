@@ -422,8 +422,8 @@ name = "cmeel-assimp"
 version = "5.4.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "cmeel" },
-    { name = "cmeel-zlib" },
+    { name = "cmeel", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "cmeel-zlib", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/79/ac/f01a4e8c93e7e76f04788bad60bc5eaf7d4862eef24c11dd38bc8b61e819/cmeel_assimp-5.4.3.1.tar.gz", hash = "sha256:bd663a65ed143e71fe4723e787cbf1480e42cea4d2450c15cb5d9d4223d24f3d", size = 53703174, upload-time = "2025-02-11T15:04:22.36Z" }
 wheels = [
@@ -440,8 +440,8 @@ name = "cmeel-boost"
 version = "1.83.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "cmeel" },
-    { name = "numpy" },
+    { name = "cmeel", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "numpy", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/0d/f8/1cdbe0845a4034a6434022d2c674374d6594e89209e6499303334b18dacd/cmeel_boost-1.83.0.tar.gz", hash = "sha256:253da2e8bc52288ad1d225c1a07c93a85b60c638b24fcb7de934150908c6ec25", size = 3967, upload-time = "2023-11-15T22:08:22.616Z" }
 wheels = [
@@ -456,7 +456,7 @@ name = "cmeel-console-bridge"
 version = "1.0.2.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "cmeel" },
+    { name = "cmeel", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/83/13/2e9e9d23db8548aef975564055bdb4fb6da8a397a1e7df8cb61f5afebefb/cmeel_console_bridge-1.0.2.3.tar.gz", hash = "sha256:3b2837da7ab408e9d1a775c83c0a7772356062b3a3672e4ce247f2da71a8ecd9", size = 262061, upload-time = "2025-03-19T18:22:06.845Z" }
 wheels = [
@@ -473,7 +473,7 @@ name = "cmeel-octomap"
 version = "1.10.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "cmeel" },
+    { name = "cmeel", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/89/ab/2fed2dbee13e4b39949591685419f1dbb691295e32a6bbbaf87edc005922/cmeel_octomap-1.10.0.tar.gz", hash = "sha256:bd79d1d17adede534de242e42e13ef0d9f04bdd27daf7d56c57f7c43670c9b05", size = 1694189, upload-time = "2025-01-06T17:57:05.477Z" }
 wheels = [
@@ -493,7 +493,7 @@ name = "cmeel-qhull"
 version = "8.0.2.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "cmeel" },
+    { name = "cmeel", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/51/dd/8d0bcfb18771b2ea02bf85dfbbc587c97b274496fb5419b72134eb69430b/cmeel_qhull-8.0.2.1.tar.gz", hash = "sha256:68e8d41d95f61830f2d460af1e4d760f0dbe4d46413d7c736f0ed701153ebe52", size = 1308055, upload-time = "2023-11-17T14:21:06.003Z" }
 wheels = [
@@ -513,7 +513,7 @@ name = "cmeel-tinyxml"
 version = "2.6.2.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "cmeel" },
+    { name = "cmeel", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/02/a4/8f7edd493e54d5bc91976a577fa1749935a4c332c0e37af57b72a77c1219/cmeel_tinyxml-2.6.2.3.tar.gz", hash = "sha256:7404308e7a578df4d480223fbe4ff867563e267ef69c95d65b6dd28e42661ef2", size = 218308, upload-time = "2023-11-29T15:25:33.132Z" }
 wheels = [
@@ -527,9 +527,9 @@ name = "cmeel-urdfdom"
 version = "3.1.1.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "cmeel" },
-    { name = "cmeel-console-bridge" },
-    { name = "cmeel-tinyxml" },
+    { name = "cmeel", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "cmeel-console-bridge", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "cmeel-tinyxml", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/97/f1/79a38622707a6ac3b8e05284183bbd9ba3ee658f46573be4999f0b5704ce/cmeel_urdfdom-3.1.1.1.tar.gz", hash = "sha256:c37c2c4627593e8a6955421d83e3c4d592d6a18276ecefed95eefad0cd82251f", size = 292115, upload-time = "2023-11-29T15:41:26.774Z" }
 wheels = [
@@ -543,7 +543,7 @@ name = "cmeel-zlib"
 version = "1.3.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "cmeel" },
+    { name = "cmeel", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/ef/85/9c6b77d5c49b363b17ba974271d58730bd26cbe00b1c576596339bb624ea/cmeel_zlib-1.3.2.tar.gz", hash = "sha256:6e31f2956c334de9a7e19a4e4f8eed030ed8c8016c841ea57226ce8bed443712", size = 3200, upload-time = "2026-05-20T16:24:37.87Z" }
 wheels = [
@@ -675,15 +675,15 @@ name = "dex-retargeting"
 version = "0.4.6"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "anytree" },
-    { name = "lxml" },
-    { name = "nlopt" },
-    { name = "numpy" },
-    { name = "pin" },
-    { name = "pytransform3d" },
-    { name = "pyyaml" },
-    { name = "torch" },
-    { name = "trimesh" },
+    { name = "anytree", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "lxml", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "nlopt", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "numpy", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "pin", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "pytransform3d", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "pyyaml", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "torch", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "trimesh", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c8/73/49bc6d0e105aeb2bc7b7ce625b9bb266ada4f6675c43aca101355d309211/dex_retargeting-0.4.6-py3-none-any.whl", hash = "sha256:cf08b93e204af21b7146f12a83d55f0a0d227f991d202655c475535621bb62f7", size = 54967, upload-time = "2024-12-19T19:04:56.095Z" },
@@ -700,8 +700,8 @@ name = "eigenpy"
 version = "3.5.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "cmeel" },
-    { name = "cmeel-boost" },
+    { name = "cmeel", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "cmeel-boost", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/f5/31/46da7a4fad88de70129e487111f2f4886e8acd94ef7885bb3177ab800f94/eigenpy-3.5.1.tar.gz", hash = "sha256:85289cc71bddebfca5ecec9e6519ba3b114f07bc9900bc842d2bb7a1d4128f2f", size = 1009509, upload-time = "2024-04-25T18:43:19.089Z" }
 wheels = [
@@ -996,12 +996,12 @@ name = "hpp-fcl"
 version = "2.4.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "cmeel" },
-    { name = "cmeel-assimp" },
-    { name = "cmeel-boost" },
-    { name = "cmeel-octomap" },
-    { name = "cmeel-qhull" },
-    { name = "eigenpy" },
+    { name = "cmeel", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "cmeel-assimp", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "cmeel-boost", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "cmeel-octomap", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "cmeel-qhull", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "eigenpy", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/43/dc/a0a43d5b823730bc3bc1f313cb25d74e3398a2183317c7235132d49875f7/hpp_fcl-2.4.4.tar.gz", hash = "sha256:4b59340b60573de082e722c2064c87759825039e8779049d5074d026881c4887", size = 3198799, upload-time = "2024-03-06T22:23:41.036Z" }
 wheels = [
@@ -2192,11 +2192,16 @@ name = "nlopt"
 version = "2.7.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "numpy" },
+    { name = "numpy", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/54/4e/a7123adf391ed71175c5c8e8217be2ac3c335cb67c3601d183e94337393d/nlopt-2.7.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:3e1653de0060a42d6709423e6160888893bb688f4ff79aa0f1def4701ea25dd8", size = 426449, upload-time = "2023-07-06T03:59:08.235Z" },
 ]
+
+[[package]]
+name = "notifier"
+version = "0.1.0"
+source = { git = "https://github.com/Chany-Lab/Notifier.git#c713692f239abc6c55892e53bebe00d5313e8f94" }
 
 [[package]]
 name = "numba"
@@ -2267,7 +2272,7 @@ name = "nvidia-cudnn-cu12"
 version = "9.7.1.26"
 source = { registry = "https://pypi.nvidia.com/" }
 dependencies = [
-    { name = "nvidia-cublas-cu12" },
+    { name = "nvidia-cublas-cu12", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32')" },
 ]
 wheels = [
     { url = "https://pypi.nvidia.com/nvidia-cudnn-cu12/nvidia_cudnn_cu12-9.7.1.26-py3-none-manylinux_2_27_x86_64.whl", hash = "sha256:6d011159a158f3cfc47bf851aea79e31bcff60d530b70ef70474c84cac484d07" },
@@ -2278,7 +2283,7 @@ name = "nvidia-cufft-cu12"
 version = "11.3.3.41"
 source = { registry = "https://pypi.nvidia.com/" }
 dependencies = [
-    { name = "nvidia-nvjitlink-cu12" },
+    { name = "nvidia-nvjitlink-cu12", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32')" },
 ]
 wheels = [
     { url = "https://pypi.nvidia.com/nvidia-cufft-cu12/nvidia_cufft_cu12-11.3.3.41-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:da650080ab79fcdf7a4b06aa1b460e99860646b176a43f6208099bdc17836b6a" },
@@ -2305,9 +2310,9 @@ name = "nvidia-cusolver-cu12"
 version = "11.7.2.55"
 source = { registry = "https://pypi.nvidia.com/" }
 dependencies = [
-    { name = "nvidia-cublas-cu12" },
-    { name = "nvidia-cusparse-cu12" },
-    { name = "nvidia-nvjitlink-cu12" },
+    { name = "nvidia-cublas-cu12", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32')" },
+    { name = "nvidia-cusparse-cu12", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32')" },
+    { name = "nvidia-nvjitlink-cu12", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32')" },
 ]
 wheels = [
     { url = "https://pypi.nvidia.com/nvidia-cusolver-cu12/nvidia_cusolver_cu12-11.7.2.55-py3-none-manylinux_2_27_x86_64.whl", hash = "sha256:4d1354102f1e922cee9db51920dba9e2559877cf6ff5ad03a00d853adafb191b" },
@@ -2318,7 +2323,7 @@ name = "nvidia-cusparse-cu12"
 version = "12.5.7.53"
 source = { registry = "https://pypi.nvidia.com/" }
 dependencies = [
-    { name = "nvidia-nvjitlink-cu12" },
+    { name = "nvidia-nvjitlink-cu12", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32')" },
 ]
 wheels = [
     { url = "https://pypi.nvidia.com/nvidia-cusparse-cu12/nvidia_cusparse_cu12-12.5.7.53-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:3c1b61eb8c85257ea07e9354606b26397612627fdcd327bfd91ccf6155e7c86d" },
@@ -2582,10 +2587,10 @@ name = "pin"
 version = "2.7.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "cmeel" },
-    { name = "cmeel-boost" },
-    { name = "cmeel-urdfdom" },
-    { name = "hpp-fcl" },
+    { name = "cmeel", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "cmeel-boost", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "cmeel-urdfdom", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "hpp-fcl", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/21/a2/bfee8e9648728ef2762d51e178592ab03c1d36ad3d899ebd339a047d6ad0/pin-2.7.0.tar.gz", hash = "sha256:4903821a466eb8fc7f2350ce0c5f84943e8c391ebc2977898bbb154dcdf01747", size = 61806404, upload-time = "2024-01-24T05:03:38.848Z" }
 wheels = [
@@ -2599,11 +2604,11 @@ name = "pin-pink"
 version = "3.1.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "loop-rate-limiters" },
-    { name = "numpy" },
-    { name = "pin" },
-    { name = "qpsolvers" },
-    { name = "quadprog" },
+    { name = "loop-rate-limiters", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "numpy", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "pin", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "qpsolvers", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "quadprog", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/7b/af/d86b85ced1cf3ad5be4f5c06bac820405aa58eb2fe1a827ebde87c3ebeff/pin_pink-3.1.0.tar.gz", hash = "sha256:7ce58ee380f6ab0bc037063d0aaac3472a92538be932db137f680a05087330a2", size = 109556, upload-time = "2024-10-28T13:56:16.926Z" }
 wheels = [
@@ -2641,6 +2646,7 @@ dependencies = [
     { name = "isaaclab-rl", extra = ["all"] },
     { name = "isaaclab-tasks" },
     { name = "isaacsim", extra = ["all", "extscache"] },
+    { name = "notifier" },
     { name = "torch" },
     { name = "torchvision", version = "0.22.0", source = { registry = "https://download.pytorch.org/whl/cu128" }, marker = "platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform == 'linux'" },
     { name = "torchvision", version = "0.22.0+cu128", source = { registry = "https://download.pytorch.org/whl/cu128" }, marker = "platform_machine != 'aarch64' or platform_python_implementation != 'CPython' or sys_platform != 'linux'" },
@@ -2661,6 +2667,7 @@ requires-dist = [
     { name = "isaaclab-rl", extras = ["all"], editable = "external/IsaacLab/source/isaaclab_rl" },
     { name = "isaaclab-tasks", editable = "external/IsaacLab/source/isaaclab_tasks" },
     { name = "isaacsim", extras = ["all", "extscache"], specifier = "==5.1.0" },
+    { name = "notifier", git = "https://github.com/Chany-Lab/Notifier.git" },
     { name = "torch", specifier = "==2.7.0", index = "https://download.pytorch.org/whl/cu128" },
     { name = "torchvision", specifier = "==0.22.0", index = "https://download.pytorch.org/whl/cu128" },
 ]
@@ -3022,10 +3029,10 @@ name = "pytransform3d"
 version = "3.17.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "lxml" },
-    { name = "matplotlib" },
-    { name = "numpy" },
-    { name = "scipy" },
+    { name = "lxml", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "matplotlib", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "numpy", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "scipy", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/2f/cb/bca3f2cba6b465517df2dcede0f11c50b77851b3a468f641ca5b8417da62/pytransform3d-3.17.0.tar.gz", hash = "sha256:f43d525751f02d12fa785d48348e842b6cfe2d5d1c9c09301b23a682c42e4afb", size = 8349388, upload-time = "2026-10-06T07:27:52.673Z" }
 wheels = [
@@ -3099,8 +3106,8 @@ name = "qpsolvers"
 version = "4.13.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "numpy" },
-    { name = "scipy" },
+    { name = "numpy", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
+    { name = "scipy", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/d1/aa/4d60a7065de30f07d7ead935eed364cf94fb0ad5607ddf1461f2bdf7ba17/qpsolvers-4.13.0.tar.gz", hash = "sha256:e86c4c16bf7c16fdbb8e6c0e4050bc1bfef72a25755211be66a492ac4c939a1c", size = 77317, upload-time = "2026-07-19T07:46:03.087Z" }
 wheels = [
@@ -3126,7 +3133,7 @@ name = "quadprog"
 version = "0.1.13"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "numpy" },
+    { name = "numpy", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/9e/60/fb9b56d425c5b3495bb92683c28f954aedb609ae62f14c81a1b5621ad759/quadprog-0.1.13.tar.gz", hash = "sha256:9d6dd32f2762f29b840fb83741d11e527ddf48745f63b79caad0e530b4a6a0ff", size = 16883, upload-time = "2024-10-24T16:58:58.004Z" }
 wheels = [
@@ -3816,7 +3823,7 @@ name = "triton"
 version = "3.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "setuptools" },
+    { name = "setuptools", marker = "sys_platform != 'darwin' and sys_platform != 'win32'" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/3c/c5/4874a81131cc9e934d88377fbc9d24319ae1fb540f3333b4e9c696ebc607/triton-3.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:3161a2bf073d6b22c4e2f33f951f3e5e3001462b2570e6df9cd57565bdec2984", size = 156528461, upload-time = "2025-04-09T20:27:32.599Z" },
